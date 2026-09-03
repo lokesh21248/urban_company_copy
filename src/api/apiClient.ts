@@ -1,7 +1,12 @@
 import axios from 'axios'
 
-// Base URL — proxied to Spring Boot in development (via Vite proxy)
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api/v1'
+// Base URL — automatically uses Vite proxy on localhost and Render backend in production
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ??
+  (typeof window !== 'undefined' &&
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? '/api/v1'
+    : 'https://urban-services-backend-12qk.onrender.com/api/v1')
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
